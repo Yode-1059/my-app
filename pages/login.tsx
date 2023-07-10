@@ -1,17 +1,20 @@
-import Button from "../components/button"
-import { loginFunc, logoutFunc } from "../lib/auth"
+import { ReactElement } from "react";
+import Button from "../components/button";
+import { loginFunc, logoutFunc } from "../lib/auth";
+import { NextPageWithLayout } from "./_app";
+import Layout from "../components/layout";
 
-
-const login = () => {
+const login: NextPageWithLayout = () => {
   return (
     <div>
-       <h1 className="text-3xl py-2 font-bold underline">
-      Hello world!
-    </h1>
+      <h1>ログイン</h1>
       <Button onClick={loginFunc}>ログイン</Button>
-      <Button onClick={logoutFunc}>ログアウト</Button>
     </div>
-  )
-}
+  );
+};
 
-export default login
+login.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default login;

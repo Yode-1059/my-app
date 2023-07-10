@@ -1,39 +1,47 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { Unsubscribe, onAuthStateChanged ,User as  FirebaseUser} from "firebase/auth";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import {auth} from "../firebase/firebase"
+import {auth, db} from "../firebase/firebase"
+import { User } from "../types/user";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
 type ContextType = {
-    isLogIn: boolean,
-    isLoading:boolean
+    fbUser: User|null|undefined,
+    isLoading: boolean,
+    user:User
 }
 
 const AuthContext = createContext<ContextType>({
-    isLogIn: false,
-    isLoading:true
+    fbUser:undefined,
+    isLoading: true,
+    user: undefined
 })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [user,setUser]=useState<User|null>()
     const [isLoading, setIsLoading] = useState(true)
-    const [isLogIn, setIsLogIn] = useState(false)
-    const [moji,setMoji]=useState("aa")
+    const [fbUser, setFbUser] = useState<FirebaseUser | null>()
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            console.log("!!user",!!user)
-            setIsLogIn(!!user)
-            console.log("isLogin",isLogIn);
-            setIsLoading(false)
-            setMoji("nikaimejikkou")
-            console.log(moji,'moji');
+        let unsubribe:Unsubscribe
+        onAuthStateChanged(auth, (resultUser) => {
+            unsubribe?.();
+            setFbUser(resultUser)
+
+            if (resultUser) {
+                setIsLoading(true)
+                const ref = doc(db, `users/${resultUser.uid}`)
+                unsubribe= onSnapshot(ref, snap => {
+                    setUser(snap.data() as User)
+                    setIsLoading(false)
+                })
+            } else {
+                setUser(null)
+                setIsLoading(false)
+            }
         })
-        console.log(isLogIn,"isLogIn",isLoading,"isLoading",moji)
     }, [])
-  useEffect(() => {
-    console.log("28 isLogIn",isLogIn) // 更新後のstateをコンソールに表示したい
-    console.log(moji,'moji');
-  }, [isLogIn])
 
     return (
-        <AuthContext.Provider value={{ isLoading, isLogIn }} >
+        <AuthContext.Provider value={{ isLoading, fbUser ,user}} >
             { children }
         </AuthContext.Provider>
     );

@@ -5,12 +5,13 @@ import {getStorage} from "firebase/storage"
 import {getAuth} from "firebase/auth"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDUCCDJCBRDM3fGLZYQQ3qg8b29Vyorrdg",
-  authDomain: "fir-35245.firebaseapp.com",
-  projectId: "fir-35245",
-  storageBucket: "fir-35245.appspot.com",
-  messagingSenderId: "470571905241",
-  appId: "1:470571905241:web:978d564b9f81fec18fcec8"
+  apiKey: "AIzaSyBNPh12hStUCjzHZEqsOwwxC_39hdk6nJw",
+  authDomain: "who-are-you-f1b7e.firebaseapp.com",
+  projectId: "who-are-you-f1b7e",
+  storageBucket: "who-are-you-f1b7e.appspot.com",
+  messagingSenderId: "395977945572",
+  appId: "1:395977945572:web:0370e50af483813fbd97f1",
+  measurementId: "G-0CQENNYN9R"
 };
 
 if (!getApps()?.length) {
