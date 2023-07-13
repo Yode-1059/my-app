@@ -3,5 +3,6 @@ export type User = {
   name: string,
   nickname: string,
   profile: string,
-  avatarURL:string
+  avatarURL: string,
+  uid:string
 }

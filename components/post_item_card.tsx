@@ -2,6 +2,7 @@ import React from "react";
 import { useUser } from "../lib/user";
 import Link from "next/link";
 import { format } from "date-fns";
+import { Post } from "../types/post";
 
 const PostItemCard = ({ post }: { post: Post }) => {
   const user = useUser(post.authorId);

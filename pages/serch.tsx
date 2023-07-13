@@ -7,11 +7,11 @@ import {
   InstantSearch,
   Pagination,
   SearchBox,
+  SearchBoxProps,
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
 import { Post } from "../types/post";
 import { debounce } from "debounce";
-import { SearchBoxProps } from "react-instantsearch-hooks-web/dist/es/ui/SearchBox";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { format, formatDistanceToNow } from "date-fns";
 import Link from "next/link";
@@ -26,15 +26,16 @@ const searchClient = algoliasearch(
 );
 
 const Serch: NextPageWithLayout = () => {
-  const serch: SearchBoxProps["queryHook"] = (query, hook) => {
-    console.log("kensaku");
+  const search: SearchBoxProps["queryHook"] = (query, hook) => {
+    console.log("検索実行");
+
     hook(query);
   };
 
   const NoResultsBoundary = ({ children }: { children: ReactNode }) => {
     const { results } = useInstantSearch();
 
-    if (!results.__isArtifical && results.nbHits === 0) {
+    if (!results.__isArtificial && results.nbHits === 0) {
       return <p>{results.query}の検索結果はない</p>;
     }
     return (
@@ -54,7 +55,7 @@ const Serch: NextPageWithLayout = () => {
       <h1>検索</h1>
       <InstantSearch indexName="posts" searchClient={searchClient}>
         <SearchBox
-          queryHook={debounce(serch, 500)}
+          queryHook={debounce(search, 500)}
           classNames={{
             root: "relative inline-block",
             input: "rounded-full border-slate-950 bg-gray-400 pr-10 pl-3 py-2",

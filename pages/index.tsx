@@ -15,9 +15,7 @@ import {
 } from "@heroicons/react/24/solid";
 import "swiper/css";
 
-export const getStaticProps: GetStaticProps<{
-  post: Post[];
-}> = async (context) => {
+export const getStaticProps: GetStaticProps<any> = async (context) => {
   const snap = await admin_db
     .collection(`posts`)
     .orderBy("createdAt", "desc")
@@ -64,7 +62,7 @@ const Home: NextPageWithLayout<
             >
               {new Array(5).fill(null).map((_, index) => {
                 return (
-                  <SwiperSlide>
+                  <SwiperSlide key="index">
                     <div className=" bg-slate-200 aspect-video grid content-center">
                       <p className="text-3xl text-center font-bold">{index}</p>
                     </div>

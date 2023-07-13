@@ -18,7 +18,7 @@ const ImageSelector = <T,>({ control, name }: UseControllerProps<T>) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const ref = useRef<AvatarEditor>(null);
 
-  const { field } = useController({ control, name });
+  const { field }: any = useController({ control, name });
 
   const onDropAccepted = useCallback((acceptedFiles: File[]) => {
     setSelectedImg(acceptedFiles[0]);

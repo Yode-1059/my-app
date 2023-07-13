@@ -4,5 +4,5 @@ export type Post = {
     body: string,
     createdAt: number,
     updatedAt:number|null,
-    authorId:string
+    authorId: string,
 }

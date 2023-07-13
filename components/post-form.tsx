@@ -43,17 +43,14 @@ const PostForm = ({ isEditMode }: { isEditMode: boolean }) => {
       ? doc(db, `posts/${editTargetId}`)
       : doc(collection(db, "posts"));
 
-    // doc(collectionによって、新しく生成されるpost.idを前もってref.idとして持つことができる
     const post: Post = {
-      // documentのidとフィールドのidが一致する
       id: isEditMode ? editTargetId : ref.id,
       title: data.title,
       body: data.body,
       createdAt: isEditMode ? data.createdAt : Date.now(),
-      updateAt: isEditMode ? Date.now() : null,
+      updatedAt: isEditMode ? Date.now() : null,
       authorId: fbUser.uid,
     };
-    // documentにfieldをsetする
     setDoc(ref, post).then(async () => {
       await revalidate("/");
       alert(`記事を${isEditMode ? "更新" : "作成"}しました`);
